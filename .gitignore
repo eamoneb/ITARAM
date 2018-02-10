@@ -1,0 +1,72 @@
+# sbt
+# (may want to keep parts of 'project')
+bin/
+project/
+target/
+build/
+
+# eclipse
+build
+.classpath
+.project
+.settings
+.worksheet
+
+*.log
+*.iml
+*.ipr
+.idea
+
+# other?
+.DS_Store
+.history
+.scala_dependencies
+.cache
+.cache-main
+
+#general
+*.class
+
+# For Hive
+TempStatsStore/
+metastore/
+metastore_db/
+sql/hive-thriftserver/test_warehouses
+warehouse/
+spark-warehouse/
+
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/dictionaries
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Mongo Explorer plugin:
+.idea/**/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
