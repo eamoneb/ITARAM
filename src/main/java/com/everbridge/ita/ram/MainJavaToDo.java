@@ -1,8 +1,8 @@
 package com.everbridge.ita.ram;
 
-public class TestJavaToDo {
+public class MainJavaToDo {
     public static void main(String[] args) {
-	println("To Do");
+	    System.out.println("To Do");
     }
 }
 
