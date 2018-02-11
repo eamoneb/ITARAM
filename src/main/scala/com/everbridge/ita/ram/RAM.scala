@@ -13,13 +13,10 @@
   */
 package com.everbridge.ita.ram
 
-//import scala.concurrent.duration._
 import org.apache.spark._
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.storage.StorageLevel
-//import org.apache.spark.sql.functions._
-//import org.apache.spark.sql.types._
 
 object RAM {
   //val warehouseLocation = "file:${system:user.dir}/spark-warehouse"
@@ -31,11 +28,16 @@ object RAM {
     .appName("RAM")
     .config("spark.driver.extraClassPath", "/Users/eamon.oneill/Library/Application\\ Support/Postgres/var-10/postgresql-42.2.1.jar")
     .config("spark.executor.extraClassPath", "/Users/eamon.oneill/Library/Application\\ Support/Postgres/var-10/postgresql-42.2.1.jar")
+    .config("spark.mongodb.input.uri", "mongodb://127.0.0.1/itaram.incidentCollection")
     .config("spark.sql.warehouse.dir", warehouseLocation)
     .config("spark.sql.parquet.cacheMetadata", false)
     .getOrCreate()
-         
+
   def main(args: Array[String]): Unit = {
+    /*
+    * Before doing this I executed the SQL statements, that are in the sql
+    * sub-directory to create a postgres data store and insert data
+    */
     // TODO remove hard-coding of dbtable, url, etc.
     val jdbcDF = spark.read
       .format("jdbc")
@@ -50,15 +52,41 @@ object RAM {
     jdbcDF.show
     jdbcDF.printSchema
 
-    // one way of querying - use Dataset select method
+    // one way of querying postgres - use Dataset select method
     val incidentTitle1DF = jdbcDF.select("title")
     incidentTitle1DF.show
 
-    // alternate way of query use SQL statement
+    // alternate way of querying postgres - use SQL statement
     jdbcDF.createOrReplaceTempView("incidentView")
     val incidentTitle2DF = spark.sql(
       s"""SELECT title FROM incidentView where id == 1""")
     incidentTitle2DF.show
+
+    /*
+    * Before doing this I executed the following at the command line, to create
+    * a mongo data store and insert data
+    *
+    * mongo
+    * use itaram
+    * db.incidentCollection.insertOne( { id : 1 , title: "baz" } )
+    * db.incidentCollection.insertOne( { id : 2 , title: "qux" } )
+    *
+    */
+    import com.mongodb.spark._
+    val NoSQLDF = MongoSpark.load(spark)
+    NoSQLDF.show
+    NoSQLDF.printSchema()
+
+    //https://docs.mongodb.com/spark-connector/master/scala/datasets-and-sql
+    // one way of querying MongoDB - use Dataset select method
+    val incidentTitle3DF = NoSQLDF.select("title")
+    incidentTitle3DF.show
+
+    // alternate way of querying MongoDB - use SQL statement
+    NoSQLDF.createOrReplaceTempView("incidentNoSQLView")
+    val incidentTitle4DF = spark.sql(
+      s"""SELECT title FROM incidentNoSQLView where id == 1""")
+    incidentTitle4DF.show
   }
 }
 
