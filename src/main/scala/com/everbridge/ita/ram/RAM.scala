@@ -34,6 +34,8 @@ object RAM {
     .getOrCreate()
 
   def main(args: Array[String]): Unit = {
+    cluster()
+
     /*
     * Before doing this I executed the SQL statements, that are in the sql
     * sub-directory to create a postgres data store and insert data
@@ -87,6 +89,25 @@ object RAM {
     val incidentTitle4DF = spark.sql(
       s"""SELECT title FROM incidentNoSQLView where id == 1""")
     incidentTitle4DF.show
+  }
+
+  def cluster() : Unit = {
+    import org.apache.spark.ml.clustering.KMeans
+
+    // Loads data.
+    val dataset = spark.read.format("libsvm").load("/Users/eamon.oneill/spark/data/mllib/sample_kmeans_data.txt")
+
+    // Trains a k-means model.
+    val kmeans = new KMeans().setK(2).setSeed(1L)
+    val model = kmeans.fit(dataset)
+
+    // Evaluate clustering by computing Within Set Sum of Squared Errors.
+    val WSSSE = model.computeCost(dataset)
+    println(s"Within Set Sum of Squared Errors = $WSSSE")
+
+    // Shows the result.
+    println("Cluster Centers: ")
+    model.clusterCenters.foreach(println)
   }
 }
 
