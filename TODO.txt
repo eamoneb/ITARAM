@@ -1,0 +1,14 @@
+TODO
+
+1. discuss data extracts with Zee
+2. After talking to Zee, file ticket with DRE team to get extract from production postgres data warehouse
+3. get postgres data dump loaded into our own postgres db. On what server should we host our postgres db so that Cory and Eamon can both access it?
+lower priority - also get an extract from the production mongo system, and load into our own mongo we can both access
+4. use various org.apache.spark.ml functions to do initial statistical analysis of the incident data - frequency, deviation, binning, median, mean, etc.
+5. use org.apache.spark.ml.clustering.KMeans function to do clustering. first Cory and Eamon need to decide which response features to use
+remove hard-coding - create a config or properties object for urls, usernames, passwords, etc.
+create a script to load data into mongodb, similar to the sql scripts for postgresql
+add comments
+add tags for scaladoc (similar to javadoc)
+add unit tests with scalatest
+invite one of the other teams to review our code. chris cebelenski (ipaas team) seems to know a lot about scala
