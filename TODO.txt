@@ -15,6 +15,47 @@ TODO
 
 * remove hard-coding - create a config or properties object for urls, usernames, passwords, etc.
 create a script to load data into mongodb, similar to the sql scripts for postgresql
+
+* work with Michael to figure out to display our results on a new scratch ITA dashboard tab
+
+* advanced sql queries (existing ITA dashboard is simplistic - only has # open, and recent trend
+      incidents with or without open conference bridge - how it affects response
+      incidents with or without escalation - how it affects response
+      incidents with lowest skilled assignees, or with highest skilled assignees - how it affects response
+      compare rate-of-efficientcy-of-response with same week / month / quarter last year. Show rate of change. Bonus: account for seasonality
+      show rate of change in efficiency-of-response
+      define efficiency-of-response. Some function of time-taken, number of escalations, number of people?
+
+* statistics: frequency, mean, binning, deviation, median, correlation, covariance, etc.
+
+machine learning
+----------------
+clustering:
+-----------
+* use kmeans function - following features are likely - time to respond, time to resolve, # of assignees, # of escalations
+* use clusters to work on situations not on individual events
+
+classification:
+---------------
+* can we get configuration-change data from a partnering CMDB? If so, we could predict future critical events based on current or recent configuration changes
+* establish root-cause. So long as we can record the root cause from known events in history
+* detect service-impact issues before users even call to report
+* otherwise do multi class classification based on how much an incident affects users - de-prioritize the ones that don't affect much
+* probably use random forest for classification with least noise
+* use naiive bayes to prioritize incidents to work on, based on their value to the business and probability of affecting users - noise reduction
+
+regression:
+-----------
+* predict the rate of change in efficiency-of-response based on dependent vcariable ???
+* maybe also predict the amount of $ an incident will cost
+
+data preparation:
+-----------------
+we might have to use Principal Component Analysis to reduce number of features
+
+other:
+------
+* pattern mining?
 add comments
 add tags for scaladoc (similar to javadoc)
 add unit tests with scalatest
