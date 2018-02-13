@@ -16,7 +16,7 @@ TODO
 * remove hard-coding - create a config or properties object for urls, usernames, passwords, etc.
 create a script to load data into mongodb, similar to the sql scripts for postgresql
 
-* work with Michael to figure out to display our results on a new scratch ITA dashboard tab
+* work with Tim Andrews to figure out to display our results on a new scratch ITA dashboard tab
 
 * advanced sql queries (existing ITA dashboard is simplistic - only has # open, and recent trend
       incidents with or without open conference bridge - how it affects response
