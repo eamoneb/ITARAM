@@ -27,8 +27,8 @@ object RAM {
     .builder()
     .master("local") // run locally within sbt, not Spark cluster
     .appName("RAM")
-    .config("spark.driver.extraClassPath", conf.getString("spark.driver.extraClassPath"))
-    .config("spark.executor.extraClassPath", conf.getString("spark.executor.extraClassPath"))
+    .config("spark.driver.extraClassPath", conf.getString("postgres.jar"))
+    .config("spark.exectutor.extraClassPath", conf.getString("postgres.jar"))
     .config("spark.mongodb.input.uri",
       s"mongodb://${conf.getString("mongodb.host")}:${conf.getString("mongodb.port")}/${conf.getString("mongodb.database")}.${conf.getString("mongodb.collection")}")
     .config("spark.sql.warehouse.dir", warehouseLocation)
