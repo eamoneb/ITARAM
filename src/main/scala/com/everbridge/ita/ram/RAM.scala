@@ -91,6 +91,8 @@ object RAM {
     val incidentTitle4DF = spark.sql(
       s"""SELECT title FROM incidentNoSQLView where id == 1""")
     incidentTitle4DF.show
+
+    spark.stop()
   }
 
   def cluster() : Unit = {
