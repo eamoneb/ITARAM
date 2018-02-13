@@ -3,6 +3,26 @@ ITARAM
 
 TODO - description
 
+First-time Setup
+----------------
+
+1. Copy `sample-overrides.conf` to `overrides.conf`. It will be git-ignored.
+
+2. Edit the values in `overrides.conf` for your environment. Example `overrides.conf`:
+
+       include classpath("application.conf")
+       
+       postgres {
+         jar = "/Users/cory.veilleux/.ivy2/cache/org.postgresql/postgresql/bundles/postgresql-42.1.4.jar"
+         database = "cory.veilleux"
+         user = "cory.veilleux"
+         password = ""
+       }
+       
+       libsvm {
+         datafile = "/Users/cory.veilleux/Documents/ml/spark/data/mllib/sample_kmeans_data.txt"
+       } 
+
 Running
 -------
 
@@ -17,4 +37,4 @@ Running
 
 2. Via `sbt run`:
 
-       TODO - need to figure this out
+       sbt run
