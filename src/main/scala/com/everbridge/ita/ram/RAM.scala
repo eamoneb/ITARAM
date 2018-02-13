@@ -14,15 +14,10 @@
 package com.everbridge.ita.ram
 
 import com.typesafe.config.ConfigFactory
-import org.apache.spark._
-import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.storage.StorageLevel
 
 object RAM {
-  /*val conf = ConfigFactory.parseResources("overrides.conf")
-    .withFallback(ConfigFactory.parseResources("defaults.conf"))
-    .resolve()*/
   val conf = ConfigFactory.load()
 
   //val warehouseLocation = "file:${system:user.dir}/spark-warehouse"
