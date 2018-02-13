@@ -4,6 +4,7 @@ version := "1.0"
 
 scalaVersion := "2.11.8"
 
+libraryDependencies += "com.typesafe" % "config" % "1.3.1"
 libraryDependencies += "org.apache.spark" %% "spark-core" % "2.2.0"
 libraryDependencies += "org.postgresql" % "postgresql" % "42.1.4"
 libraryDependencies += "org.mongodb.spark" %% "mongo-spark-connector" % "2.2.0"

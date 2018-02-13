@@ -13,12 +13,18 @@
   */
 package com.everbridge.ita.ram
 
+import com.typesafe.config.ConfigFactory
 import org.apache.spark._
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.storage.StorageLevel
 
 object RAM {
+  /*val conf = ConfigFactory.parseResources("overrides.conf")
+    .withFallback(ConfigFactory.parseResources("defaults.conf"))
+    .resolve()*/
+  val conf = ConfigFactory.load()
+
   //val warehouseLocation = "file:${system:user.dir}/spark-warehouse"
   val warehouseLocation = "spark-warehouse"
   // SparkSession is required to create Spark SQL DataFrames
@@ -26,9 +32,10 @@ object RAM {
     .builder()
     .master("local") // run locally within sbt, not Spark cluster
     .appName("RAM")
-    .config("spark.driver.extraClassPath", "/Users/eamon.oneill/Library/Application\\ Support/Postgres/var-10/postgresql-42.2.1.jar")
-    .config("spark.executor.extraClassPath", "/Users/eamon.oneill/Library/Application\\ Support/Postgres/var-10/postgresql-42.2.1.jar")
-    .config("spark.mongodb.input.uri", "mongodb://127.0.0.1/itaram.incidentCollection")
+    .config("spark.driver.extraClassPath", conf.getString("spark.driver.extraClassPath"))
+    .config("spark.executor.extraClassPath", conf.getString("spark.executor.extraClassPath"))
+    .config("spark.mongodb.input.uri",
+      s"mongodb://${conf.getString("mongodb.host")}:${conf.getString("mongodb.port")}/${conf.getString("mongodb.database")}.${conf.getString("mongodb.collection")}")
     .config("spark.sql.warehouse.dir", warehouseLocation)
     .config("spark.sql.parquet.cacheMetadata", false)
     .getOrCreate()
@@ -44,10 +51,10 @@ object RAM {
     val jdbcDF = spark.read
       .format("jdbc")
       .option("driver", "org.postgresql.Driver")
-      .option("url", "jdbc:postgresql://localhost:5432/eamon.oneill")
-      .option("dbtable", "public.incident")
-      .option("user", "eamon.oneill")
-      .option("password", "")
+      .option("url", s"jdbc:postgresql://${conf.getString("postgres.host")}:${conf.getString("postgres.port")}/${conf.getString("postgres.database")}")
+      .option("dbtable", conf.getString("postgres.table"))
+      .option("user", conf.getString("postgres.user"))
+      .option("password", conf.getString("postgres.password"))
       .load()
 
     jdbcDF.persist(StorageLevel.MEMORY_ONLY)
@@ -95,7 +102,7 @@ object RAM {
     import org.apache.spark.ml.clustering.KMeans
 
     // Loads data.
-    val dataset = spark.read.format("libsvm").load("/Users/eamon.oneill/spark/data/mllib/sample_kmeans_data.txt")
+    val dataset = spark.read.format("libsvm").load(conf.getString("libsvm.datafile"))
 
     // Trains a k-means model.
     val kmeans = new KMeans().setK(2).setSeed(1L)

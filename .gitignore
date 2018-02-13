@@ -70,3 +70,5 @@ out/
 # JIRA plugin
 atlassian-ide-plugin.xml
 
+# actual TypeSafe config user-specific file
+overrides.conf
